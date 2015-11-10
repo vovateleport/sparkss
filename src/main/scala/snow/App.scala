@@ -5,8 +5,8 @@ import org.apache.spark.SparkContext
 
 object App {
   def main(args: Array[String]) {
-    val c = new SparkConf()
-    val sc = new SparkContext("spark://52.33.4.206:7077","spark1",c)
+    val c = new SparkConf().setJars(Seq("file://home/ubuntu/sparkss/target/scala-2.10/sparkss_2.10-1.0.jar"))
+    val sc = new SparkContext("spark://ip-172-31-22-13:7077","spark1",c)
 
     try {
       /*val baseNet:RDD[String] = sc.textFile("C:\\projects\\datravel1\\net_prices-flat_100.csv")
