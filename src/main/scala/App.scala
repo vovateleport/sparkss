@@ -1,6 +1,8 @@
-import datr.{MarketLog, NetLog}
+import datr.{Query, MarketLog, NetLog}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
+import com.github.nscala_time.time.OrderingImplicits.DateTimeOrdering
+import org.joda.time.DateTime
 
 object App {
   def main(args: Array[String]) {
@@ -13,23 +15,24 @@ object App {
       val baseNet:RDD[String] = sc.textFile("/home/ubuntu/data/net_prices-flat_100.csv")
       val baseMarket:RDD[String] = sc.textFile("/home/ubuntu/data/market_prices-flat_100.csv")
 
-      val nc = baseNet.map(NetLog.parse).count()
-      val mc = baseMarket.map(MarketLog.parse).count()
+      val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get.query)
+      val mc = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get.query)
 
-      println("count",nc,mc)
+      println("count",countMinMax(nc),countMinMax(mc))
 
-      //val base0 = sc.textFile("C:\\projects\\datravel1\\net_prices-flat.csv").take(100)
-      //base0.saveAsTextFile("C:\\projects\\datravel1\\net_prices-flat_100.csv")
-      //println("YOOO", base0.take(1)(0))
-      /*val num = 1000
-      val count = sc.parallelize(1 to num, 1).map{i =>
-        val x = Math.random()
-        val y = Math.random()
-        if (x*x + y*y < 1) 1 else 0
-      }.reduce(_ + _)
-      println("Pi is roughly " + 4.0 * count / num)*/
     }finally {
       sc.stop()
     }
+  }
+
+  def countMinMax(dd:RDD[Query]):(DateTime, Option[DateTime]) = {
+    dd.map(q=>(q.date1,q.date2))
+      .reduce((p1,p2)=> (
+        List(p1._1,p2._1).min,
+        List[Option[DateTime]](p1._2, p2._2).flatten match {
+          case Nil=> None
+          case l => Some(l.max)
+        }
+      ))
   }
 }
