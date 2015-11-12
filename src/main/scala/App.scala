@@ -6,7 +6,7 @@ import com.github.nscala_time.time.OrderingImplicits.DateTimeOrdering
 
 object App {
   def main(args: Array[String]) {
-    val suff = args match { case Array("100") => "_100" case _=>"" }
+    val suff = args match { case Array("100") => "_100.csv" case _=>".csv.gz" }
 
     val c = new SparkConf()
       .set("spark.task.maxFailures","1")
@@ -14,8 +14,8 @@ object App {
     val sc = new SparkContext("spark://ip-172-31-22-13:7077","spark1",c)
 
     try {
-      val baseNet:RDD[String] = sc.textFile(s"/home/ubuntu/data/net_prices-flat$suff.csv",3)
-      val baseMarket:RDD[String] = sc.textFile(s"/home/ubuntu/data/market_prices-flat$suff.csv",1)
+      val baseNet:RDD[String] = sc.textFile(s"/home/ubuntu/data/net_prices-flat$suff").repartition(3)
+      val baseMarket:RDD[String] = sc.textFile(s"/home/ubuntu/data/market_prices-flat$suff",1)
 
       val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get.query)
       val mc = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get.query)
