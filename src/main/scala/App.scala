@@ -8,8 +8,8 @@ object App {
     val sc = new SparkContext("spark://ip-172-31-22-13:7077","spark1",c)
 
     try {
-      val baseNet:RDD[String] = sc.textFile("local:/home/ubuntu/data/net_prices-flat_100.csv")
-      val baseMarket:RDD[String] = sc.textFile("local:/home/ubuntu/data/market_prices-flat_100.csv")
+      val baseNet:RDD[String] = sc.textFile("/home/ubuntu/data/net_prices-flat_100.csv")
+      val baseMarket:RDD[String] = sc.textFile("/home/ubuntu/data/market_prices-flat_100.csv")
 
       val nc = baseNet.map(NetLog.parse).count()
       val mc = baseMarket.map(MarketLog.parse).count()
