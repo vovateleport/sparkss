@@ -26,8 +26,8 @@ object App {
 
       val mc = baseMarket.map(MarketLog.parse)
         .filter(_.nonEmpty)
-        .map(_.get.agents.keys.toSeq)
-        .reduce(_ intersect _)
+        .map(_.get.agents.keys.toSet)
+        .reduce(_ union _)
       println("agencies", mc)
 
     }finally {
