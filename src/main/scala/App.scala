@@ -16,11 +16,13 @@ object App {
     try {
       val baseNet:RDD[String] = sc.textFile(s"/home/ubuntu/data/net_prices-flat$suff").repartition(3)
       val baseMarket:RDD[String] = sc.textFile(s"/home/ubuntu/data/market_prices-flat$suff",1)
+      println("rows count net,market", baseNet.count(), baseMarket.count())
 
       val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get.query)
       val mc = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get.query)
+      println("parsed logs count net,market", nc.count(), mc.count())
 
-      println("count",countMinMax(nc),countMinMax(mc))
+      println("date minmax net,market",countMinMax(nc),countMinMax(mc))
 
     }finally {
       sc.stop()
