@@ -4,7 +4,9 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object App {
   def main(args: Array[String]) {
-    val c = new SparkConf().setJars(Seq("local:/home/ubuntu/sparkss/target/scala-2.10/sparkss_2.10-1.0.jar"))
+    val c = new SparkConf()
+      .set("spark.task.maxFailures","1")
+
     val sc = new SparkContext("spark://ip-172-31-22-13:7077","spark1",c)
 
     try {
