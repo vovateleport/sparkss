@@ -62,12 +62,17 @@ import JsonProtocol._
 object JsonDetail {
   def unapply(s:String):Option[Detail] = {
     val prepared = s.init.init.tail.tail.replace("\"\"","\"")
-    val json = prepared.parseJson
-    //println("JsonDetail", prepared)
-    //println(json)
 
-    val b = json.convertTo[Detail]
-    //println("NetDetails", b)
-    Some(b)
+    try {
+      val json = prepared.parseJson
+      //println("JsonDetail", prepared)
+      //println(json)
+
+      val b = json.convertTo[Detail]
+      //println("NetDetails", b)
+      Some(b)
+    } catch {
+      case e:Exception => None
+    }
   }
 }

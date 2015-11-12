@@ -1,4 +1,4 @@
-import datr.{MarketLog, NetLog}
+import datr.{JsonDetail, MarketLog, NetLog}
 import org.scalatest._
 import scala.io.Source
 
@@ -20,5 +20,9 @@ class ParserSpec extends FlatSpec with Matchers {
     lines.length should be (100)
     logs.length should be (100)
     source.close()
+  }
+
+  it should "parse to None incorrect" in {
+    JsonDetail.unapply("{[]}aseasdasd") should be (None)
   }
 }
