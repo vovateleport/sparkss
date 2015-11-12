@@ -12,7 +12,7 @@ lazy val root = (project in file(".")).
       "org.scalatest" %% "scalatest" % "2.2.4" % Test
     ),
     test in assembly := {},
-    assemblyJarName in assembly := "scalass.jar",
+    assemblyJarName in assembly := "sparkss.jar",
     assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false),
     assemblyExcludedJars in assembly := {
       val skip = List("spark-core_2.10-1.5.1.jar","spark-launcher_2.10-1.5.2.jar","spark-launcher_2.10-1.5.2.jar")
