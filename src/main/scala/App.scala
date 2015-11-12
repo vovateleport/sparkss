@@ -1,19 +1,21 @@
 import datr.{Query, MarketLog, NetLog}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
+import com.github.nscala_time.time.Imports._
 import com.github.nscala_time.time.OrderingImplicits.DateTimeOrdering
-import org.joda.time.DateTime
 
 object App {
   def main(args: Array[String]) {
+    val suff = args match { case Array("100") => "_100" case _=>"" }
+
     val c = new SparkConf()
       .set("spark.task.maxFailures","1")
 
     val sc = new SparkContext("spark://ip-172-31-22-13:7077","spark1",c)
 
     try {
-      val baseNet:RDD[String] = sc.textFile("/home/ubuntu/data/net_prices-flat_100.csv")
-      val baseMarket:RDD[String] = sc.textFile("/home/ubuntu/data/market_prices-flat_100.csv")
+      val baseNet:RDD[String] = sc.textFile(s"/home/ubuntu/data/net_prices-flat$suff.csv",3)
+      val baseMarket:RDD[String] = sc.textFile(s"/home/ubuntu/data/market_prices-flat$suff.csv",1)
 
       val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get.query)
       val mc = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get.query)
