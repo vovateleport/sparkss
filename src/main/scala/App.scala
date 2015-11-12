@@ -1,7 +1,4 @@
-package snow
-
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
+import org.apache.spark.{SparkConf, SparkContext}
 
 object App {
   def main(args: Array[String]) {
