@@ -2,18 +2,17 @@ package datr
 
 import utils.SplitVertical
 
-
 case class NetLog(
                    from: String,
                    to: String,
                    query: Query,
                    flights: Seq[String],
-                   detail: Detail)
+                   details: List[Detail])
 
 object NetLog {
   def parse(s: String): Option[NetLog] = {
     s.split(",|\\>", 5) match {
-      case Array(from, to, Query(q), SplitVertical(flights), JsonDetail(detail)) => Some(NetLog(from, to, q, flights, detail))
+      case Array(from, to, Query(q), SplitVertical(flights), JsonDetail(details)) => Some(NetLog(from, to, q, flights, details))
       //case Array(from,to,Query(q), SplitVertical(flights),detailString) => println("NetLog_parse", detailString); None
       case _ => None
     }
@@ -43,11 +42,9 @@ case class Passenger (
 
 case class Coupon(fareBasis:String)
 
-
 case class Test(gds:String)
 
 import spray.json._
-
 
 object JsonProtocol extends DefaultJsonProtocol {
   implicit val testFormat = jsonFormat1(Test)
@@ -60,7 +57,27 @@ object JsonProtocol extends DefaultJsonProtocol {
 import JsonProtocol._
 
 object JsonDetail {
-  def unapply(s:String):Option[Detail] = {
+  def unapply(s:String):Option[List[Detail]] = {
+    val prepared = s.init.tail.replace("\"\"","\"")
+
+    try {
+      val json = prepared.parseJson
+      println("JsonDetail", prepared)
+      println(json)
+
+      val b = json.convertTo[List[Detail]]
+      println("JsonDetail_parsed", b)
+
+      b match {
+        case Nil => None
+        case _ => Some(b)
+      }
+    } catch {
+      case e:Exception => None
+    }
+  }
+
+  def unapply_old(s:String):Option[Detail] = {
     val prepared = s.init.init.tail.tail.replace("\"\"","\"")
 
     try {
@@ -74,5 +91,16 @@ object JsonDetail {
     } catch {
       case e:Exception => None
     }
+  }
+}
+
+object JsonTest {
+  def unapply(s:String):Option[List[Test]] = {
+    val json = s.parseJson
+    println(json)
+
+    val b = json.convertTo[List[Test]]
+    println("JsonTest", b)
+    Some(b)
   }
 }

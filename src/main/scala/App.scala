@@ -14,21 +14,18 @@ object App {
     val sc = new SparkContext("spark://ip-172-31-22-13:7077","spark1",c)
 
     try {
-      //val baseNet:RDD[String] = sc.textFile(s"/home/ubuntu/data/net_prices-flat$suff").repartition(sc.defaultParallelism*3)
-      val baseMarket:RDD[String] = sc.textFile(s"/home/ubuntu/data/market_prices-flat$suff").repartition(sc.defaultParallelism*3)
+      val baseNet:RDD[String] = sc.textFile(s"/home/ubuntu/data/net_prices-flat$suff").repartition(sc.defaultParallelism*3)
+      //val baseMarket:RDD[String] = sc.textFile(s"/home/ubuntu/data/market_prices-flat$suff").repartition(sc.defaultParallelism*3)
       //println("rows count net,market", baseNet.count(), baseMarket.count())
 
-      //val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get.query)
+      val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get)
+      nc.cache()
       //val mc = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get.query)
-      //println("parsed logs count net,market", nc.count(), mc.count())
+      println("parsed logs count net", nc.count())//, mc.count())
 
       //println("date minmax net,market",countMinMax(nc),countMinMax(mc))
 
-      val mc = baseMarket.map(MarketLog.parse)
-        .filter(_.nonEmpty)
-        .map(_.get.agents.keys.toSet)
-        .reduce(_ union _)
-      println("agencies", mc)
+      println("net gds", nc.flatMap(nl=>nl.details.map(_.gds)).distinct())
 
     }finally {
       sc.stop()
