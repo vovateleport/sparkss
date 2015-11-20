@@ -28,8 +28,8 @@ object App {
           val nc0 = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get)
           val mc0 = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get)
 
-          nc0.saveAsObjectFile(pathConverted+fileNet)
-          mc0.saveAsObjectFile(pathConverted+fileMarket)
+          nc0.saveAsObjectFile(pathConverted+fileNet); println("net saved to",pathConverted+fileNet)
+          mc0.saveAsObjectFile(pathConverted+fileMarket); println("marked saved to",pathConverted+fileMarket)
           (nc0, mc0)
         case false =>
           val baseNet:RDD[String] = sc.textFile(pathLog + fileNet + suff).repartition(sc.defaultParallelism*3)
