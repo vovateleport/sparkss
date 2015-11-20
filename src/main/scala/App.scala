@@ -21,13 +21,16 @@ object App {
       val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get)
       println("parsed logs count net", nc.count())//, mc.count())
 
-      //println("net gds", listGds(nc))
+      println("net gds", listGds(nc))
 
     }finally {
       sc.stop()
     }
   }
 
+  /**
+    * список gds'ов
+   */
   def listGds(nc: RDD[NetLog]):Seq[String] = {
     nc.flatMap(nl=>nl.details.map(_.gds)).distinct().collect()
   }
