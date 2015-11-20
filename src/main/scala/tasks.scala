@@ -11,7 +11,7 @@ object tasks {
       .reduceByKey(_+_)
       .collect()
 
-    println(tuples.sortBy{case (ag,c)=>c}.mkString("\n"))
+    println(tuples.sortBy{case (ag,c)=>(-c)}.mkString("\n"))
   }
 
   /**
