@@ -22,6 +22,9 @@ object App {
     }
   }
 
+  /**
+    * Главная функция для выполнения тасков, куда приходят загруженные RDD
+    * */
   def process(nc:RDD[NetLog], mc:RDD[MarketLog]) {
     //println("counts net market", nc.count(),mc.count())
     tasks.agentAmount(mc)
