@@ -23,7 +23,8 @@ object App {
   }
 
   def process(nc:RDD[NetLog], mc:RDD[MarketLog]) {
-    println("counts net market", nc.count(),mc.count())
+    //println("counts net market", nc.count(),mc.count())
+    tasks.agentAmount(mc)
   }
 
   def process_load(sc: SparkContext, args:Array[String]) {
@@ -54,21 +55,4 @@ object App {
   }
 
 
-  /**
-    * список gds'ов
-   */
-  def listGds(nc: RDD[NetLog]):Seq[String] = {
-    nc.flatMap(nl=>nl.details.map(_.gds)).distinct().collect()
-  }
-
-  def countMinMax(dd:RDD[Query]):(DateTime, Option[DateTime]) = {
-    dd.map(q=>(q.date1,q.date2))
-      .reduce((p1,p2)=> (
-        List(p1._1,p2._1).min,
-        List[Option[DateTime]](p1._2, p2._2).flatten match {
-          case Nil=> None
-          case l => Some(l.max)
-        }
-      ))
-  }
 }
