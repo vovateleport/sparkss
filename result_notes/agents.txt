@@ -1,0 +1,8 @@
+01242, 2b428, e4259, 568d8, 07ff3, e7bd5, 9dc79, 1b17b, 03af6, a9b18, 5eca4, d93f3, 697fe, 05bc7, e74c4, 8916b, bc19e,
+0d294, c3ab3, b993b, a6080, 8d64a, b7cb5, b6c22, baf12, 21a02, 384b7, b3cb4, a1436, c2bd1, 7936b, d39f5, fa17a, de8d5,
+fcb7a, 21909, acad8, 84db1, 126e0, 209f2, 9fb3f, 810b1, d9e2b, 0ac52, 1d4a9, 33038, dec32, 98236, e8328, 4987e, a4641,
+210c5, 06753, 853c2, 5033e, 28825, 621dc, 7297e, afb6d, 7c0d5, bd30a, 4cb1f, c0f7e, 38f0b, 8471a, adb97, 3b80c, ab090,
+b8dea, 87893, e8621, 6107b, 1da8d, 0577f, d8b28, fc424, b71e1, d7e77, b5a08, fc9f4, cf06a, a2d6a, ad36a, e8f19, 7f801,
+280ac, 2461b, 125fe, b30e2, b7a87, dacd4, a215e, b1d16, 959a0, 3f723, 88948, 14be1, 2d2e8, 5e6b0, 8c687, 541c1, 80eaa,
+d9e90, 53305, cf096, afd77, 7e00c, 14db2, ac387, be30a, 7015f, 87d1e, 83c82, 83b63, e7ca0, d8ae1, 44624, 38473, a2569,
+1f613, fa7d7, ee1e8, 9eb3d, 9d0dd, 7b83b, ef77f, 164bd

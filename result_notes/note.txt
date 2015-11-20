@@ -1,0 +1,13 @@
+Даты minmax
+
+Net
+02.11.2015 - 29.10.2016
+
+Market
+02.11.2015 - 30.04.2016
+
+(rows count net,market,
+6268346,2784662)
+
+(parsed logs count net,market,
+5679114,2784662)

@@ -62,11 +62,8 @@ object JsonDetail {
 
     try {
       val json = prepared.parseJson
-      println("JsonDetail", prepared)
-      println(json)
 
       val b = json.convertTo[List[Detail]]
-      println("JsonDetail_parsed", b)
 
       b match {
         case Nil => None

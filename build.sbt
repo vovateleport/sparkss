@@ -13,11 +13,6 @@ lazy val root = (project in file(".")).
     ),
     test in assembly := {},
     assemblyJarName in assembly := "sparkss.jar",
-    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false),
-    assemblyExcludedJars in assembly := {
-      val skip = List("spark-core_2.10-1.5.1.jar","spark-launcher_2.10-1.5.2.jar","spark-launcher_2.10-1.5.2.jar")
-      val cp = (fullClasspath in assembly).value
-      cp.filter(f=>skip.contains(f.data.getName))
-    }
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
   )
 
