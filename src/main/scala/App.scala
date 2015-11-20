@@ -19,17 +19,17 @@ object App {
       //println("rows count net,market", baseNet.count(), baseMarket.count())
 
       val nc = baseNet.map(NetLog.parse).filter(_.nonEmpty).map(_.get)
-      nc.cache()
-      //val mc = baseMarket.map(MarketLog.parse).filter(_.nonEmpty).map(_.get.query)
       println("parsed logs count net", nc.count())//, mc.count())
 
-      //println("date minmax net,market",countMinMax(nc),countMinMax(mc))
-
-      println("net gds", nc.flatMap(nl=>nl.details.map(_.gds)).distinct())
+      println("net gds", listGds(nc))
 
     }finally {
       sc.stop()
     }
+  }
+
+  def listGds(nc: RDD[NetLog]):Seq[String] = {
+    nc.flatMap(nl=>nl.details.map(_.gds)).distinct().collect()
   }
 
   def countMinMax(dd:RDD[Query]):(DateTime, Option[DateTime]) = {
